@@ -16,7 +16,8 @@ public class FareEstimateControllerImpl implements FareEstimateController {
 
     @Override
     public ResponseEntity<FareEstimateResponse> findEstimate(String origin, String destination, Integer duration, Plans plan) {
-        var request = FareEstimateRequest.builder()
+
+        FareEstimateRequest request = FareEstimateRequest.builder()
                 .withOrigin(origin)
                 .withDestination(destination)
                 .withDuration(duration)

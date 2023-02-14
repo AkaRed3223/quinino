@@ -1,9 +1,7 @@
 package br.com.quinino.service;
 
-import br.com.quinino.domain.enums.Plans;
 import br.com.quinino.domain.requests.FareEstimateRequest;
 import br.com.quinino.domain.responses.FareEstimateResponse;
-import br.com.quinino.domain.exceptions.NoCoverageException;
 import br.com.quinino.repository.FareEstimateDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
