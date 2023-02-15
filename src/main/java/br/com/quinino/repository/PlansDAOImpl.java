@@ -12,8 +12,12 @@ public class PlansDAOImpl implements PlansDAO {
     @Override
     public List<Plan> getPlans() {
         List<Plan> plans = new ArrayList<>();
-        List.of(PlansEnum.values()).forEach(planEnum -> plans.add(new Plan(planEnum.name(), planEnum.value)));
+        List.of(PlansEnum.values()).forEach(planEnum -> plans.add(new Plan(planEnum.name(), planEnum.getValue())));
         return plans;
+    }
+
+    public int getMinutesInPlan(String plan) {
+        return PlansEnum.valueOf(plan).getValue();
     }
 
     public enum PlansEnum {
@@ -31,7 +35,4 @@ public class PlansDAOImpl implements PlansDAO {
             return value;
         }
     }
-
-
-
 }
