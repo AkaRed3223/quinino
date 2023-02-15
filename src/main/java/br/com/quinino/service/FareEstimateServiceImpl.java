@@ -18,29 +18,30 @@ public class FareEstimateServiceImpl implements FareEstimateService {
     @Override
     public FareEstimateResponse getEstimate(FareEstimateRequest request) {
 
-        BigDecimal ratePerMinute = fareEstimateDAO.getMinuteRate(request.origin(), request.destination());
-        final int minutesInPlan = request.plan().getValue();
-        final int duration = request.duration();
+        int minutesInPlan = 10;
+        BigDecimal minuteRate = fareEstimateDAO.getMinuteRate(request.getOrigin(), request.getDestination());
 
-        final int DECIMAL_PLACES = 2;
-        BigDecimal valueWithPlan = calculateFaleMais(minutesInPlan, duration, ratePerMinute).setScale(DECIMAL_PLACES, RoundingMode.HALF_UP);
-        BigDecimal valueWithoutPlan = calculateFaleMais(duration, ratePerMinute).setScale(DECIMAL_PLACES, RoundingMode.HALF_UP);
+        BigDecimal comFaleMaisValue = calculateComFaleMais(minutesInPlan, request.getDuration(), minuteRate).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal semFaleMaisValue = calculateSemFaleMais(request.getDuration(), minuteRate).setScale(2, RoundingMode.HALF_UP);
 
-        return new FareEstimateResponse(request, valueWithPlan, valueWithoutPlan);
+        return FareEstimateResponse.builder()
+                .withRequest(request)
+                .withComFaleMais(comFaleMaisValue)
+                .withSemFaleMais(semFaleMaisValue)
+                .build();
     }
 
-    private BigDecimal calculateFaleMais(Integer duration, BigDecimal minuteRate) {
-        return calculateFaleMais(0, duration, minuteRate);
-    }
-
-    private BigDecimal calculateFaleMais(int minutesInPlan, int duration, BigDecimal minuteRate) {
+    private BigDecimal calculateComFaleMais(int minutesInPlan, int duration, BigDecimal minuteRate) {
         if (duration < minutesInPlan) return BigDecimal.ZERO;
 
-        BigDecimal calculatedValue = new BigDecimal(duration - minutesInPlan).multiply(minuteRate);
+        var a = duration - minutesInPlan;
+        var b = new BigDecimal(a).multiply(minuteRate);
+        return b.multiply(new BigDecimal("1.1"));
+        //TODO usar overload
+    }
 
-        if (minutesInPlan == 0) return calculatedValue;
-
-        final String MULTIPLIER_TAX = "1.1";
-        return calculatedValue.multiply(new BigDecimal(MULTIPLIER_TAX)); //calculated value + 10% tax
+    private BigDecimal calculateSemFaleMais(int duration, BigDecimal minuteRate) {
+        return new BigDecimal(duration).multiply(minuteRate);
+        //TODO usar overload
     }
 }
