@@ -18,7 +18,7 @@ public class FareEstimateServiceImpl implements FareEstimateService {
     @Override
     public FareEstimateResponse getEstimate(FareEstimateRequest request) {
 
-        int minutesInPlan = request.getPlan().getValue();
+        int minutesInPlan = 10;
         BigDecimal minuteRate = fareEstimateDAO.getMinuteRate(request.getOrigin(), request.getDestination());
 
         BigDecimal comFaleMaisValue = calculateComFaleMais(minutesInPlan, request.getDuration(), minuteRate).setScale(2, RoundingMode.HALF_UP);

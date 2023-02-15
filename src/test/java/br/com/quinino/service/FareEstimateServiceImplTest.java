@@ -3,6 +3,7 @@ package br.com.quinino.service;
 import br.com.quinino.domain.enums.Plans;
 import br.com.quinino.domain.requests.FareEstimateRequest;
 import br.com.quinino.repository.FareEstimateDAO;
+import br.com.quinino.repository.PlansDAOImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,7 +30,7 @@ class FareEstimateServiceImplTest {
         String origin = "011";
         String destination = "016";
         Integer duration = 20;
-        Plans plan = Plans.FALEMAIS_30;
+        var plan = PlansDAOImpl.Planss.FALEMAIS_30;
 
         when(fareEstimateDAO.getMinuteRate(origin, destination)).thenReturn(new BigDecimal("1.90"));
 
