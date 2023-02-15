@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public class FareEstimateDAOImpl implements FareEstimateDAO {
+public class FaresDAOImpl implements FaresDAO {
 
     @Override
     public BigDecimal getMinuteRate(String origin, String destination) {

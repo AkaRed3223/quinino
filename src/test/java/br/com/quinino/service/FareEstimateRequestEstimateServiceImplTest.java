@@ -1,9 +1,9 @@
 package br.com.quinino.service;
 
-import br.com.quinino.domain.enums.Plans;
 import br.com.quinino.domain.requests.FareEstimateRequest;
 import br.com.quinino.domain.responses.FareEstimateResponse;
-import br.com.quinino.repository.FareEstimateDAO;
+import br.com.quinino.repository.FaresDAO;
+import br.com.quinino.repository.PlansDAO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,10 +20,13 @@ import static org.mockito.Mockito.when;
 class FareEstimateRequestEstimateServiceImplTest {
 
     @InjectMocks
-    private FareEstimateServiceImpl fareEstimateService;
+    private FareCalculationServiceImpl fareEstimateService;
 
     @Mock
-    private FareEstimateDAO fareEstimateDAO;
+    private FaresDAO faresDAO;
+
+    @Mock
+    private PlansDAO plansDAO;
 
     @Test
     void test1() {
@@ -31,9 +34,10 @@ class FareEstimateRequestEstimateServiceImplTest {
         String origin = "011";
         String destination = "016";
         int duration = 20;
-        Plans plan = Plans.FALEMAIS_30;
+        String plan = "FALEMAIS_30";
 
-        when(fareEstimateDAO.getMinuteRate(origin, destination)).thenReturn(new BigDecimal("1.90"));
+        when(faresDAO.getMinuteRate(origin, destination)).thenReturn(new BigDecimal("1.90"));
+        when(plansDAO.getMinutesInPlan(plan)).thenReturn(30);
 
         FareEstimateRequest request = new FareEstimateRequest(origin, destination, duration, plan);
         FareEstimateResponse response = fareEstimateService.getEstimate(request);
@@ -49,9 +53,10 @@ class FareEstimateRequestEstimateServiceImplTest {
         String origin = "011";
         String destination = "017";
         int duration = 80;
-        Plans plan = Plans.FALEMAIS_60;
+        String plan = "FALEMAIS_60";
 
-        when(fareEstimateDAO.getMinuteRate(origin, destination)).thenReturn(new BigDecimal("1.70"));
+        when(faresDAO.getMinuteRate(origin, destination)).thenReturn(new BigDecimal("1.70"));
+        when(plansDAO.getMinutesInPlan(plan)).thenReturn(60);
 
         FareEstimateRequest request = new FareEstimateRequest(origin, destination, duration, plan);
         FareEstimateResponse response = fareEstimateService.getEstimate(request);
@@ -67,9 +72,10 @@ class FareEstimateRequestEstimateServiceImplTest {
         String origin = "018";
         String destination = "011";
         int duration = 200;
-        Plans plan = Plans.FALEMAIS_120;
+        String plan = "FALEMAIS_120";
 
-        when(fareEstimateDAO.getMinuteRate(origin, destination)).thenReturn(new BigDecimal("1.90"));
+        when(faresDAO.getMinuteRate(origin, destination)).thenReturn(new BigDecimal("1.90"));
+        when(plansDAO.getMinutesInPlan(plan)).thenReturn(120);
 
         FareEstimateRequest request = new FareEstimateRequest(origin, destination, duration, plan);
         FareEstimateResponse response = fareEstimateService.getEstimate(request);
@@ -78,19 +84,4 @@ class FareEstimateRequestEstimateServiceImplTest {
         assertEquals(new BigDecimal("167.20"), response.comFaleMais());
         assertEquals(new BigDecimal("380.00"), response.semFaleMais());
     }
-
-    /*@Test
-    void test4() {
-
-        String origin = "018";
-        String destination = "017";
-        Integer duration = 100;
-        Plans plan = Plans.FALEMAIS_30;
-
-        var request = buildRequest(origin, destination, duration, plan.toString());
-        var response = service.getEstimate(request);
-
-        assertEquals(BigDecimal.ZERO, response.getComFaleMais());
-        assertEquals(new BigDecimal("38"), response.getSemFaleMais());
-    }*/
 }

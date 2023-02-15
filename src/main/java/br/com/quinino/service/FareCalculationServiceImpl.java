@@ -2,7 +2,8 @@ package br.com.quinino.service;
 
 import br.com.quinino.domain.requests.FareEstimateRequest;
 import br.com.quinino.domain.responses.FareEstimateResponse;
-import br.com.quinino.repository.FareEstimateDAO;
+import br.com.quinino.repository.FaresDAO;
+import br.com.quinino.repository.PlansDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,23 +11,25 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Service
-public class FareEstimateServiceImpl implements FareEstimateService {
+public class FareCalculationServiceImpl implements FareCalculationService {
 
     @Autowired
-    private FareEstimateDAO fareEstimateDAO;
+    private FaresDAO faresDAO;
+
+    @Autowired
+    private PlansDAO plansDAO;
 
     @Override
     public FareEstimateResponse getEstimate(FareEstimateRequest request) {
-
-        BigDecimal ratePerMinute = fareEstimateDAO.getMinuteRate(request.origin(), request.destination());
-        final int minutesInPlan = request.plan().getValue();
+        final int minutesInPlan = plansDAO.getMinutesInPlan(request.plan());
         final int duration = request.duration();
 
-        final int DECIMAL_PLACES = 2;
-        BigDecimal valueWithPlan = calculateFaleMais(minutesInPlan, duration, ratePerMinute).setScale(DECIMAL_PLACES, RoundingMode.HALF_UP);
-        BigDecimal valueWithoutPlan = calculateFaleMais(duration, ratePerMinute).setScale(DECIMAL_PLACES, RoundingMode.HALF_UP);
+        BigDecimal ratePerMinute = faresDAO.getMinuteRate(request.origin(), request.destination());
 
-        return new FareEstimateResponse(request, valueWithPlan, valueWithoutPlan);
+        final int DECIMAL_PLACES = 2;
+        return new FareEstimateResponse(
+                calculateFaleMais(minutesInPlan, duration, ratePerMinute).setScale(DECIMAL_PLACES, RoundingMode.HALF_UP),
+                calculateFaleMais(duration, ratePerMinute).setScale(DECIMAL_PLACES, RoundingMode.HALF_UP));
     }
 
     private BigDecimal calculateFaleMais(Integer duration, BigDecimal minuteRate) {
