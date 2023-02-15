@@ -2,6 +2,7 @@ package br.com.quinino.service;
 
 import br.com.quinino.domain.enums.Plans;
 import br.com.quinino.domain.requests.FareEstimateRequest;
+import br.com.quinino.domain.responses.FareEstimateResponse;
 import br.com.quinino.repository.FareEstimateDAO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,10 +13,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class FareEstimateServiceImplTest {
+class FareEstimateRequestEstimateServiceImplTest {
 
     @InjectMocks
     private FareEstimateServiceImpl fareEstimateService;
@@ -28,16 +30,17 @@ class FareEstimateServiceImplTest {
 
         String origin = "011";
         String destination = "016";
-        Integer duration = 20;
+        int duration = 20;
         Plans plan = Plans.FALEMAIS_30;
 
         when(fareEstimateDAO.getMinuteRate(origin, destination)).thenReturn(new BigDecimal("1.90"));
 
-        var request = buildRequest(origin, destination, duration, plan);
-        var response = fareEstimateService.getEstimate(request);
+        FareEstimateRequest request = new FareEstimateRequest(origin, destination, duration, plan);
+        FareEstimateResponse response = fareEstimateService.getEstimate(request);
 
-        assertEquals(new BigDecimal("0.00"), response.getComFaleMais());
-        assertEquals(new BigDecimal("38.00"), response.getSemFaleMais());
+        assertNotNull(response);
+        assertEquals(new BigDecimal("0.00"), response.comFaleMais());
+        assertEquals(new BigDecimal("38.00"), response.semFaleMais());
     }
 
     @Test
@@ -45,16 +48,17 @@ class FareEstimateServiceImplTest {
 
         String origin = "011";
         String destination = "017";
-        Integer duration = 80;
+        int duration = 80;
         Plans plan = Plans.FALEMAIS_60;
 
         when(fareEstimateDAO.getMinuteRate(origin, destination)).thenReturn(new BigDecimal("1.70"));
 
-        var request = buildRequest(origin, destination, duration, plan);
-        var response = fareEstimateService.getEstimate(request);
+        FareEstimateRequest request = new FareEstimateRequest(origin, destination, duration, plan);
+        FareEstimateResponse response = fareEstimateService.getEstimate(request);
 
-        assertEquals(new BigDecimal("37.40"), response.getComFaleMais());
-        assertEquals(new BigDecimal("136.00"), response.getSemFaleMais());
+        assertNotNull(response);
+        assertEquals(new BigDecimal("37.40"), response.comFaleMais());
+        assertEquals(new BigDecimal("136.00"), response.semFaleMais());
     }
 
     @Test
@@ -62,22 +66,22 @@ class FareEstimateServiceImplTest {
 
         String origin = "018";
         String destination = "011";
-        Integer duration = 200;
+        int duration = 200;
         Plans plan = Plans.FALEMAIS_120;
 
         when(fareEstimateDAO.getMinuteRate(origin, destination)).thenReturn(new BigDecimal("1.90"));
 
-        var request = buildRequest(origin, destination, duration, plan);
-        var response = fareEstimateService.getEstimate(request);
+        FareEstimateRequest request = new FareEstimateRequest(origin, destination, duration, plan);
+        FareEstimateResponse response = fareEstimateService.getEstimate(request);
 
-        assertEquals(new BigDecimal("167.20"), response.getComFaleMais());
-        assertEquals(new BigDecimal("380.00"), response.getSemFaleMais());
+        assertNotNull(response);
+        assertEquals(new BigDecimal("167.20"), response.comFaleMais());
+        assertEquals(new BigDecimal("380.00"), response.semFaleMais());
     }
 
     /*@Test
     void test4() {
 
-        //TODO cenário de erro
         String origin = "018";
         String destination = "017";
         Integer duration = 100;
@@ -89,12 +93,4 @@ class FareEstimateServiceImplTest {
         assertEquals(BigDecimal.ZERO, response.getComFaleMais());
         assertEquals(new BigDecimal("38"), response.getSemFaleMais());
     }*/
-
-    private FareEstimateRequest buildRequest(String origin, String destination, Integer duration, Plans plan) {
-        return FareEstimateRequest.builder()
-                .withOrigin(origin)
-                .withDestination(destination)
-                .withDuration(duration)
-                .withPlan(plan).build();
-    }
 }
