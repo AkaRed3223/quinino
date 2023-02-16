@@ -1,10 +1,9 @@
 package br.com.quinino.service;
 
-import br.com.quinino.domain.requests.FareEstimateRequest;
-import br.com.quinino.domain.responses.FareEstimateResponse;
+import br.com.quinino.domain.requests.FareCalculationRequest;
+import br.com.quinino.domain.responses.FareCalculationResponse;
 import br.com.quinino.repository.FaresDAO;
 import br.com.quinino.repository.PlansDAO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -13,23 +12,29 @@ import java.math.RoundingMode;
 @Service
 public class FareCalculationServiceImpl implements FareCalculationService {
 
-    @Autowired
-    private FaresDAO faresDAO;
+    private final FaresDAO faresDAO;
+    private final PlansDAO plansDAO;
 
-    @Autowired
-    private PlansDAO plansDAO;
+    public FareCalculationServiceImpl(FaresDAO faresDAO, PlansDAO plansDAO) {
+        this.faresDAO = faresDAO;
+        this.plansDAO = plansDAO;
+    }
 
     @Override
-    public FareEstimateResponse getEstimate(FareEstimateRequest request) {
-        final int minutesInPlan = plansDAO.getMinutesInPlan(request.plan());
-        final int duration = request.duration();
+    public FareCalculationResponse calculateFare(FareCalculationRequest request) {
+        int minutesInPlan = getMinutesInPlan(request.plan());
+        int duration = request.duration();
 
-        BigDecimal ratePerMinute = faresDAO.getMinuteRate(request.origin(), request.destination());
+        BigDecimal ratePerMinute = faresDAO.getRateByOriginAndDestination(request.origin(), request.destination());
 
         final int DECIMAL_PLACES = 2;
-        return new FareEstimateResponse(
+        return new FareCalculationResponse(
                 calculateFaleMais(minutesInPlan, duration, ratePerMinute).setScale(DECIMAL_PLACES, RoundingMode.HALF_UP),
                 calculateFaleMais(duration, ratePerMinute).setScale(DECIMAL_PLACES, RoundingMode.HALF_UP));
+    }
+
+    private int getMinutesInPlan(String planName) {
+        return plansDAO.findPlanByName(planName).minutes();
     }
 
     private BigDecimal calculateFaleMais(Integer duration, BigDecimal minuteRate) {

@@ -10,14 +10,19 @@ import java.util.List;
 public class PlansDAOImpl implements PlansDAO {
 
     @Override
-    public List<Plan> getPlans() {
+    public List<Plan> findAllPlans() {
         List<Plan> plans = new ArrayList<>();
         List.of(PlansEnum.values()).forEach(planEnum -> plans.add(new Plan(planEnum.name(), planEnum.getValue())));
         return plans;
     }
 
-    public int getMinutesInPlan(String plan) {
-        return PlansEnum.valueOf(plan).getValue();
+    public Plan findPlanByName(String planName) {
+        try {
+            PlansEnum plan = PlansEnum.valueOf(planName);
+            return new Plan(plan.name(), plan.getValue());
+        } catch (Exception e) {
+            throw new EnumConstantNotPresentException(PlansEnum.class, planName);
+        }
     }
 
     public enum PlansEnum {

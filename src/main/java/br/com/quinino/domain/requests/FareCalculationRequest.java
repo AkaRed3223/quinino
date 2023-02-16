@@ -1,6 +1,6 @@
 package br.com.quinino.domain.requests;
 
-public record FareEstimateRequest(
+public record FareCalculationRequest(
         String origin,
         String destination,
         int duration,

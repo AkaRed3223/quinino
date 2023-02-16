@@ -1,9 +1,9 @@
 package br.com.quinino.service;
 
-import br.com.quinino.domain.requests.FareEstimateRequest;
-import br.com.quinino.domain.responses.FareEstimateResponse;
+import br.com.quinino.domain.requests.FareCalculationRequest;
+import br.com.quinino.domain.responses.FareCalculationResponse;
 
 public interface FareCalculationService {
 
-    FareEstimateResponse getEstimate(FareEstimateRequest request);
+    FareCalculationResponse calculateFare(FareCalculationRequest request);
 }

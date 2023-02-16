@@ -4,6 +4,7 @@
 //TODO parameterized Tests
 //TODO swagger
 //TODO readme
+//TODO database mock through hashmap
 
 Implemented using:
 - TDD

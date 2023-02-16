@@ -8,5 +8,5 @@ public interface PlansService {
 
     List<Plan> getPlans();
 
-    int getMinutesInPlan(String plan);
+    Plan getPlan(String plan);
 }

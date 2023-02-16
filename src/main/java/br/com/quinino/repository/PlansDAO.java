@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PlansDAO {
 
-    List<Plan> getPlans();
+    List<Plan> findAllPlans();
 
-    int getMinutesInPlan(String plan);
+    Plan findPlanByName(String plan);
 }

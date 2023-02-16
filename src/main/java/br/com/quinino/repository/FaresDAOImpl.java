@@ -10,7 +10,7 @@ import java.util.Map;
 public class FaresDAOImpl implements FaresDAO {
 
     @Override
-    public BigDecimal getMinuteRate(String origin, String destination) {
+    public BigDecimal getRateByOriginAndDestination(String origin, String destination) {
         Map<String, BigDecimal> map = buildMap();
         String key = origin + "-" + destination;
         BigDecimal value = map.get(key);
