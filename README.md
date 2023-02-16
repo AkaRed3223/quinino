@@ -1,10 +1,5 @@
 # quinino
-//TODO tests com cenario de erro
-//TODO NoCoverageException
-//TODO parameterized Tests
-//TODO swagger
 //TODO readme
-//TODO database mock through hashmap
 
 Implemented using:
 - TDD
@@ -12,6 +7,5 @@ Implemented using:
 - Java 14 Records
 - Overloading technique
 - SpringBoot @Autowired for dependency injection
-- Exception handling
+- Response Code 204 when no content is returned
 - Parameterized Unit testing
-- Documenting with Swagger
