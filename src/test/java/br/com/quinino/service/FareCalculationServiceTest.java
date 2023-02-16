@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class FareEstimateRequestCalculationServiceImplTest {
+class FareCalculationServiceTest {
 
     @InjectMocks
     private FareCalculationService fareEstimateService;
