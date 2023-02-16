@@ -1,12 +1,25 @@
 package br.com.quinino.service;
 
 import br.com.quinino.domain.Plan;
+import br.com.quinino.repository.PlansDAO;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface PlansService {
+@Service
+public class PlansService {
 
-    List<Plan> getPlans();
+    private final PlansDAO plansDAO;
 
-    Plan getPlan(String plan);
+    public PlansService(PlansDAO plansDAO) {
+        this.plansDAO = plansDAO;
+    }
+
+    public List<Plan> getPlans() {
+        return plansDAO.findAllPlans();
+    }
+
+    public Plan getPlan(String plan) {
+        return plansDAO.findPlanByName(plan);
+    }
 }

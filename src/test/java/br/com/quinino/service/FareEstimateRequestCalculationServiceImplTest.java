@@ -1,11 +1,11 @@
 package br.com.quinino.service;
 
+import br.com.quinino.domain.Fare;
 import br.com.quinino.domain.Plan;
 import br.com.quinino.domain.requests.FareCalculationRequest;
 import br.com.quinino.domain.responses.FareCalculationResponse;
 import br.com.quinino.repository.FaresDAO;
 import br.com.quinino.repository.PlansDAO;
-import br.com.quinino.repository.PlansDAOImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 class FareEstimateRequestCalculationServiceImplTest {
 
     @InjectMocks
-    private FareCalculationServiceImpl fareEstimateService;
+    private FareCalculationService fareEstimateService;
 
     @Mock
     private FaresDAO faresDAO;
@@ -38,7 +38,7 @@ class FareEstimateRequestCalculationServiceImplTest {
         int duration = 20;
         String plan = "FALEMAIS_30";
 
-        when(faresDAO.getRateByOriginAndDestination(origin, destination)).thenReturn(new BigDecimal("1.90"));
+        when(faresDAO.findFareByOriginAndDestination(origin, destination)).thenReturn(new Fare(origin, destination, new BigDecimal("1.90")));
         when(plansDAO.findPlanByName(plan)).thenReturn(new Plan(plan, 30));
 
         FareCalculationRequest request = new FareCalculationRequest(origin, destination, duration, plan);
@@ -57,7 +57,7 @@ class FareEstimateRequestCalculationServiceImplTest {
         int duration = 80;
         String plan = "FALEMAIS_60";
 
-        when(faresDAO.getRateByOriginAndDestination(origin, destination)).thenReturn(new BigDecimal("1.70"));
+        when(faresDAO.findFareByOriginAndDestination(origin, destination)).thenReturn(new Fare(origin, destination, new BigDecimal("1.70")));
         when(plansDAO.findPlanByName(plan)).thenReturn(new Plan(plan, 60));
 
         FareCalculationRequest request = new FareCalculationRequest(origin, destination, duration, plan);
@@ -76,7 +76,7 @@ class FareEstimateRequestCalculationServiceImplTest {
         int duration = 200;
         String plan = "FALEMAIS_120";
 
-        when(faresDAO.getRateByOriginAndDestination(origin, destination)).thenReturn(new BigDecimal("1.90"));
+        when(faresDAO.findFareByOriginAndDestination(origin, destination)).thenReturn(new Fare(origin, destination, new BigDecimal("1.90")));
         when(plansDAO.findPlanByName(plan)).thenReturn(new Plan(plan, 120));
 
         FareCalculationRequest request = new FareCalculationRequest(origin, destination, duration, plan);
