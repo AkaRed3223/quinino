@@ -1,7 +1,5 @@
 package br.com.quinino.service;
 
-import br.com.quinino.domain.Fare;
-import br.com.quinino.domain.Plan;
 import br.com.quinino.domain.requests.FareCalculationRequest;
 import br.com.quinino.domain.responses.FareCalculationResponse;
 import br.com.quinino.repository.FaresDAO;
@@ -23,16 +21,16 @@ public class FareCalculationService {
     }
 
     public FareCalculationResponse calculateFare(FareCalculationRequest request) {
-        Plan plan = plansDAO.findPlanByName(request.plan());
+        var plan = plansDAO.findPlanByName(request.plan());
         if (plan == null) return new FareCalculationResponse(null, null);
 
-        Fare fare = faresDAO.findFareByOriginAndDestination(request.origin(), request.destination());
+        var fare = faresDAO.findFareByOriginAndDestination(request.origin(), request.destination());
         if (fare == null) return new FareCalculationResponse(null, null);
 
         int minutesInPlan = plan.minutes();
         int duration = request.duration();
 
-        BigDecimal ratePerMinute = fare.fare();
+        var ratePerMinute = fare.fare();
 
         final int DECIMAL_PLACES = 2;
         return new FareCalculationResponse(
@@ -47,10 +45,10 @@ public class FareCalculationService {
     private BigDecimal calculateFaleMais(int minutesInPlan, int duration, BigDecimal minuteRate) {
         if (duration < minutesInPlan) return BigDecimal.ZERO;
 
-        BigDecimal calculatedValue = new BigDecimal(duration - minutesInPlan).multiply(minuteRate);
+        var calculatedValue = new BigDecimal(duration - minutesInPlan).multiply(minuteRate);
         if (minutesInPlan == 0) return calculatedValue;
 
-        final String MULTIPLIER_TAX = "1.1";
+        final var MULTIPLIER_TAX = "1.1";
         return calculatedValue.multiply(new BigDecimal(MULTIPLIER_TAX)); //calculated value + 10% tax
     }
 }

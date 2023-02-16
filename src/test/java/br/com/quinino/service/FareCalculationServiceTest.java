@@ -3,7 +3,6 @@ package br.com.quinino.service;
 import br.com.quinino.domain.Fare;
 import br.com.quinino.domain.Plan;
 import br.com.quinino.domain.requests.FareCalculationRequest;
-import br.com.quinino.domain.responses.FareCalculationResponse;
 import br.com.quinino.repository.FaresDAO;
 import br.com.quinino.repository.PlansDAO;
 import org.junit.jupiter.api.DisplayName;
@@ -54,7 +53,7 @@ class FareCalculationServiceTest {
         when(faresDAO.findFareByOriginAndDestination(GRANDE_SP, RIBEIRAO)).thenReturn(new Fare(GRANDE_SP, RIBEIRAO, ONE_SEVENTY));
         when(plansDAO.findPlanByName(FALEMAIS_30)).thenReturn(new Plan(FALEMAIS_30, sameValue));
 
-        FareCalculationResponse response = fareEstimateService.calculateFare(
+        var response = fareEstimateService.calculateFare(
                 new FareCalculationRequest(GRANDE_SP, RIBEIRAO, sameValue, FALEMAIS_30));
 
         assertNotNull(response);
@@ -75,8 +74,8 @@ class FareCalculationServiceTest {
         when(faresDAO.findFareByOriginAndDestination(GRANDE_SP, RIBEIRAO)).thenReturn(new Fare(GRANDE_SP, RIBEIRAO, ONE_NINETY));
         when(plansDAO.findPlanByName(FALEMAIS_30)).thenReturn(new Plan(FALEMAIS_30, 30));
 
-        FareCalculationRequest request = new FareCalculationRequest(GRANDE_SP, RIBEIRAO, 20, FALEMAIS_30);
-        FareCalculationResponse response = fareEstimateService.calculateFare(request);
+        var response = fareEstimateService.calculateFare(
+                new FareCalculationRequest(GRANDE_SP, RIBEIRAO, 20, FALEMAIS_30));
 
         assertNotNull(response);
         assertEquals(new BigDecimal("0.00"), response.comFaleMais());
@@ -89,7 +88,7 @@ class FareCalculationServiceTest {
         when(faresDAO.findFareByOriginAndDestination(GRANDE_SP, SAO_JOSE)).thenReturn(new Fare(GRANDE_SP, SAO_JOSE, ONE_SEVENTY));
         when(plansDAO.findPlanByName(FALEMAIS_60)).thenReturn(new Plan(FALEMAIS_60, 60));
 
-        FareCalculationResponse response = fareEstimateService.calculateFare(
+        var response = fareEstimateService.calculateFare(
                 new FareCalculationRequest(GRANDE_SP, SAO_JOSE, 80, FALEMAIS_60));
 
         assertNotNull(response);
@@ -103,7 +102,7 @@ class FareCalculationServiceTest {
         when(faresDAO.findFareByOriginAndDestination(PRESIDENTE_PRUDENTE, GRANDE_SP)).thenReturn(new Fare(PRESIDENTE_PRUDENTE, GRANDE_SP, ONE_NINETY));
         when(plansDAO.findPlanByName(FALEMAIS_120)).thenReturn(new Plan(FALEMAIS_120, 120));
 
-        FareCalculationResponse response = fareEstimateService.calculateFare(
+        var response = fareEstimateService.calculateFare(
                 new FareCalculationRequest(PRESIDENTE_PRUDENTE, GRANDE_SP, 200, FALEMAIS_120));
 
         assertNotNull(response);
@@ -117,7 +116,7 @@ class FareCalculationServiceTest {
         when(faresDAO.findFareByOriginAndDestination(GRANDE_SP, RIBEIRAO)).thenReturn(new Fare(GRANDE_SP, RIBEIRAO, ONE_NINETY));
         when(plansDAO.findPlanByName(FALEMAIS_30)).thenReturn(new Plan(FALEMAIS_30, 30));
 
-        FareCalculationResponse response = fareEstimateService.calculateFare(
+        var response = fareEstimateService.calculateFare(
                 new FareCalculationRequest(GRANDE_SP, RIBEIRAO, 30, FALEMAIS_30));
 
         assertNotNull(response);
@@ -131,7 +130,7 @@ class FareCalculationServiceTest {
         when(faresDAO.findFareByOriginAndDestination(GRANDE_SP, RIBEIRAO)).thenReturn(new Fare(GRANDE_SP, RIBEIRAO, ONE_NINETY));
         when(plansDAO.findPlanByName(FALEMAIS_120)).thenReturn(new Plan(FALEMAIS_120, 120));
 
-        FareCalculationResponse response = fareEstimateService.calculateFare(
+        var response = fareEstimateService.calculateFare(
                 new FareCalculationRequest(GRANDE_SP, RIBEIRAO, 999, FALEMAIS_120));
 
         assertNotNull(response);
@@ -145,12 +144,12 @@ class FareCalculationServiceTest {
 
         int duration = 30;
         int minutesInPlan = 30;
-        BigDecimal ratePerMinute = new BigDecimal("1.90");
+        var ratePerMinute = new BigDecimal("1.90");
 
         when(faresDAO.findFareByOriginAndDestination(GRANDE_SP, RIBEIRAO)).thenReturn(new Fare(GRANDE_SP, RIBEIRAO, ratePerMinute));
         when(plansDAO.findPlanByName(FALEMAIS_30)).thenReturn(new Plan(FALEMAIS_30, minutesInPlan));
 
-        FareCalculationResponse response = fareEstimateService.calculateFare(
+        var response = fareEstimateService.calculateFare(
                 new FareCalculationRequest(GRANDE_SP, RIBEIRAO, minutesInPlan, FALEMAIS_30));
 
         assertNotNull(response);
@@ -164,7 +163,7 @@ class FareCalculationServiceTest {
         when(faresDAO.findFareByOriginAndDestination("098", "099")).thenReturn(null);
         when(plansDAO.findPlanByName(FALEMAIS_30)).thenReturn(new Plan(FALEMAIS_30, 30));
 
-        FareCalculationResponse response = fareEstimateService.calculateFare(
+        var response = fareEstimateService.calculateFare(
                 new FareCalculationRequest("098", "099", 30, FALEMAIS_30));
 
         assertNotNull(response);
