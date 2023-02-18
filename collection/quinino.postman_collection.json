@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d1a0e0a4-59ce-45f3-854c-7517259ec595",
+		"_postman_id": "47caecac-6d26-471c-a445-180bb23fae09",
 		"name": "q",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "18124875"
@@ -51,15 +51,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/plans/FALEMAIS_30",
+					"raw": "http://localhost:8080/fares",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"plans",
-						"FALEMAIS_30"
+						"fares"
 					]
 				}
 			},
@@ -93,7 +92,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"origin\": \"011\",\r\n    \"destination\": \"018\",\r\n    \"duration\": 20,\r\n    \"plan\": \"FALEMAIS_30\"\r\n}",
+					"raw": "{\r\n    \"origin\": \"011\",\r\n    \"destination\": \"016\",\r\n    \"duration\": 20,\r\n    \"plan\": \"FALEMAIS_30\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -101,14 +100,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/fares",
+					"raw": "http://localhost:8080/fares/calculate",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"fares"
+						"fares",
+						"calculate"
 					]
 				}
 			},
