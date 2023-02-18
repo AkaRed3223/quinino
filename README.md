@@ -17,14 +17,24 @@ You can also simulate how much you're going to pay in advance, considering the o
 Implemented using:
 - TDD
 - Clean Architecture / Decoupling
+  - The purpose of this design is to provide easy implementation of new features by decoupling functions and creating objects for plans and fares
 - Interfaces
 - Java 14 Records
 - Overloading technique
 - SpringBoot @Autowired for dependency injection
 - Multiple HTTP methods for retrieving and posting information
-- Parameterized Unit testing
+- Unit tests and parameterized tests
+  - JUnit 5 / Mockito
 - Ready to Plug-in database
   - The /repository classes have been designed as a DAO layer, all you have to do is replace it to your own database and adjust the domain objects
+
+# How to Run (with Docker)
+```sh 
+docker build -t quinino-app-docker.jar .
+```
+```sh 
+docker run -p 8080:8080 quinino-app-docker.jar
+```
 
 # How to Run (without Docker)
 
@@ -55,14 +65,6 @@ mvn spring-boot:run
 ```
 The application will run on default port 8080
 (no need to complicate, after all)
-
-# How to Run (with Docker)
-```sh 
-docker build -t spring-boot-docker.jar .
-```
-```sh 
-docker run -p 8080:8080 spring-boot-docker.jar
-```
 
 Last but not least:
 ## How to make requests
