@@ -2,7 +2,8 @@
 ### :star_struck:Welcome to the Q.uinino Application!!!:star_struck:
 
 Q.uinino is a phone company specialized in long distance calls. 
-At this moment we're building a new product, :telephone_receiver:FaleMais:telephone_receiver:
+At this moment we're building a new product:
+:telephone_receiver:FaleMais:telephone_receiver:
 
 Currently, a Q.uinino customer is able to make city-to-city calls paying a pre-established dial rate, according to the list of origin and destination state codes,
 however, with the new FaleMais plan, you're able to make calls without worrying where you're calling!
@@ -11,7 +12,7 @@ This is why this API exists. It provides services where you can verify the plans
 
 :scream:BUT WAIT! THERE'S MORE!:scream:
 
-You can also simulate how much you're going to pay in advance, considering the location of the calls and which minute package you're choosing!
+You can also simulate how much you're going to pay in advance, considering the origin and destination of the calls and what package you're choosing!
 
 Implemented using:
 - TDD
@@ -38,6 +39,9 @@ https://www.codejava.net/java-se/download-and-install-openjdk-17
 https://maven.apache.org/download.cgi
 
 ## Clone the project (I assume you have git installed, right?... RIGHT?:scream:	)
+```sh 
+git clone https://github.com/AkaRed3223/quinino.git
+```
 
 ## R-U-N
 ```sh 
@@ -60,4 +64,6 @@ docker build -t spring-boot-docker.jar .
 docker run -p 8080:8080 spring-boot-docker.jar
 ```
 
-Last but not least, in the /collection folder you can find a json of a pre-built postman collection so you can start calculating right away!
+Last but not least:
+## How to make requests
+In the /collection folder you can find the json for a pre-built postman collection so you can start calculating right away!
