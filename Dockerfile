@@ -1,4 +1,12 @@
-FROM openjdk:17
+FROM maven:3.8.3-openjdk-17-slim AS builder
+WORKDIR /quinino
 EXPOSE 8080
-ADD target/spring-boot-docker.jar spring-boot-docker.jar
-ENTRYPOINT ["java","-jar","/spring-boot-docker.jar"]
+COPY . .
+
+RUN mvn package
+
+FROM openjdk:17-jdk-slim AS runner
+WORKDIR /quinino
+EXPOSE 8080
+COPY --from=builder /quinino/target/quinino-app-docker.jar .
+CMD java -jar quinino-app-docker.jar
