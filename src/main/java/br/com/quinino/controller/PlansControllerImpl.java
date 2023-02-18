@@ -16,19 +16,17 @@ import java.util.List;
 public class PlansControllerImpl implements PlansController {
 
     @Autowired
-    private PlansService PlansService;
+    private PlansService plansService;
 
     @Override
     @GetMapping()
     public ResponseEntity<List<Plan>> getPlans() {
-        return ResponseEntity.ok(PlansService.getPlans());
+        return ResponseEntity.ok(plansService.getPlans());
     }
 
     @Override
     @GetMapping(path = "/{plan}")
     public ResponseEntity<Plan> getMinutesInPlan(@PathVariable String plan) {
-        Plan response = PlansService.getPlan(plan);
-        if (response == null) return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(plansService.getPlan(plan));
     }
 }

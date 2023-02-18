@@ -16,28 +16,26 @@ import java.util.List;
 public class FaresControllerImpl implements FaresController {
 
     @Autowired
-    private FaresService FaresService;
+    private FaresService faresService;
 
     @Autowired
-    private FareCalculationService FareCalculationService;
+    private FareCalculationService fareCalculationService;
 
     @Override
     @GetMapping()
     public ResponseEntity<List<Fare>> getAllFares() {
-        return ResponseEntity.ok(FaresService.getFares());
+        return ResponseEntity.ok(faresService.getFares());
     }
 
     @Override
     @GetMapping(path = "/{origin}/{destination}")
     public ResponseEntity<Fare> getFare(@PathVariable String origin, @PathVariable String destination) {
-        Fare response = FaresService.getFare(origin, destination);
-        if (response == null) return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(faresService.getFare(origin, destination));
     }
 
     @Override
     @PostMapping(path = "/calculate")
     public ResponseEntity<FareCalculationResponse> calculateFare(@RequestBody FareCalculationRequest request) {
-        return ResponseEntity.ok(FareCalculationService.calculateFare(request));
+        return ResponseEntity.ok(fareCalculationService.calculateFare(request));
     }
 }
